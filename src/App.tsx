@@ -26,7 +26,7 @@ const tempMovieData = [
   },
 ];
 export default function App() {
-  const [movies, setMovies] = useState(tempMovieData);
+  const [movies] = useState(tempMovieData);
 
   return (
     <>

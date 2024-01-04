@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import ListBox from "./body/ListBox";
 import WatchedBox from "./body/WatchedBox";
 import { MovieType } from "../types/MovieType";

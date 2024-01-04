@@ -31,7 +31,7 @@ const tempWatchedData = [
 ];
 
 const WatchedBox: React.FC<WatchedBoxProps> = ({ movies }) => {
-  const [watched, setWatched] = useState(tempWatchedData);
+  const [watched] = useState(tempWatchedData);
   const [isOpen2, setIsOpen2] = useState(true);
   return (
     <div className="box">
