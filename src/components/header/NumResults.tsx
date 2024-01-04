@@ -1,9 +1,14 @@
-interface NumResultsProps {}
+import React from "react";
+import { MovieType } from "../../types/MovieType";
 
-const NumResults: React.FC<NumResultsProps> = () => {
+interface NumResultsProps {
+  movies: MovieType[];
+}
+
+const NumResults: React.FC<NumResultsProps> = ({ movies }) => {
   return (
     <p className="num-results">
-      Found <strong>{/* {movies.length} */}0</strong> results
+      Found <strong>{movies.length}</strong> results
     </p>
   );
 };

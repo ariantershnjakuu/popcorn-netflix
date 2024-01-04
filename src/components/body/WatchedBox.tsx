@@ -1,8 +1,11 @@
 import React, { useState } from "react";
 import WatchedSummary from "./WatchedSummary";
 import WatchedList from "./WatchedList";
+import { MovieType } from "../../types/MovieType";
 
-interface WatchedBoxProps {}
+interface WatchedBoxProps {
+  movies: MovieType[];
+}
 
 const tempWatchedData = [
   {
@@ -27,7 +30,7 @@ const tempWatchedData = [
   },
 ];
 
-const WatchedBox: React.FC<WatchedBoxProps> = () => {
+const WatchedBox: React.FC<WatchedBoxProps> = ({ movies }) => {
   const [watched, setWatched] = useState(tempWatchedData);
   const [isOpen2, setIsOpen2] = useState(true);
   return (

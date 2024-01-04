@@ -1,14 +1,17 @@
 import React, { useState } from "react";
 import ListBox from "./body/ListBox";
 import WatchedBox from "./body/WatchedBox";
+import { MovieType } from "../types/MovieType";
 
-interface MainProps {}
+interface MainProps {
+  movies: MovieType[];
+}
 
-const Main: React.FC<MainProps> = () => {
+const Main: React.FC<MainProps> = ({ movies }) => {
   return (
     <main className="main">
-      <ListBox />
-      <WatchedBox />
+      <ListBox movies={movies} />
+      <WatchedBox movies={movies} />
     </main>
   );
 };
