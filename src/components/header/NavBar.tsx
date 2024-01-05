@@ -1,21 +1,11 @@
 import React from "react";
-import Search from "./Search";
-import Logo from "./Logo";
-import NumResults from "./NumResults";
-import { MovieType } from "../../types/MovieType";
 
 interface NavProps {
-  movies: MovieType[];
+  children: React.ReactNode;
 }
 
-const Nav: React.FC<NavProps> = ({ movies }) => {
-  return (
-    <nav className="nav-bar">
-      <Logo />
-      <Search />
-      <NumResults movies={movies} />
-    </nav>
-  );
+const Nav: React.FC<NavProps> = ({ children }) => {
+  return <nav className="nav-bar">{children}</nav>;
 };
 
 export default Nav;

@@ -1,12 +1,9 @@
 import React, { useState } from "react";
-import MovieList from "./MovieList";
-import { MovieType } from "../../types/MovieType";
-
 interface ListBoxProps {
-  movies: MovieType[];
+  children: React.ReactNode;
 }
 
-const ListBox: React.FC<ListBoxProps> = ({ movies }) => {
+const ListBox: React.FC<ListBoxProps> = ({ children }) => {
   const [isOpen1, setIsOpen1] = useState(true);
   return (
     <div className="box">
@@ -16,7 +13,7 @@ const ListBox: React.FC<ListBoxProps> = ({ movies }) => {
       >
         {isOpen1 ? "–" : "+"}
       </button>
-      {isOpen1 && <MovieList movies={movies} />}
+      {isOpen1 && children}
     </div>
   );
 };
