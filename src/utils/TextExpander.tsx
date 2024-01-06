@@ -1,3 +1,5 @@
+import React, { useState } from "react";
+
 interface TextExpanderProps {
   children: React.ReactNode;
   collapsedNumWords?: number;
@@ -6,27 +8,26 @@ interface TextExpanderProps {
   buttonColor?: string;
   expanded?: boolean;
   className?: string;
-  setExpanded?: any;
 }
 
 const TextExpander: React.FC<TextExpanderProps> = ({
-  children,
-  collapsedNumWords,
-  expandButtonText,
-  collapseButtonText,
+  collapsedNumWords = 15,
+  expandButtonText = "Show more",
+  collapseButtonText = "Show less",
   buttonColor,
-  expanded,
+  expanded = false,
   className,
-  setExpanded,
+  children,
 }) => {
+  const [isExpanded, setIsExpanded] = useState(expanded);
   return (
     <div>
       <span>
-        {expanded
+        {isExpanded
           ? (children as string)
               .split(" ")
               .slice(0, collapsedNumWords)
-              .join(" ")
+              .join(" ") + "..."
           : children}
       </span>
 
@@ -37,9 +38,9 @@ const TextExpander: React.FC<TextExpanderProps> = ({
           background: "none",
           cursor: "pointer",
         }}
-        onClick={() => setExpanded(!expanded)}
+        onClick={() => setIsExpanded((exp) => !exp)}
       >
-        {expanded ? expandButtonText : collapseButtonText}
+        {isExpanded ? collapseButtonText : expandButtonText}
       </button>
     </div>
   );
