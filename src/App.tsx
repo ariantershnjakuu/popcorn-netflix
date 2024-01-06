@@ -8,6 +8,7 @@ import Main from "./components/Main";
 import WatchedSummary from "./components/body/WatchedSummary";
 import WatchedList from "./components/body/WatchedList";
 import { useState } from "react";
+import TextExpander from "./utils/TextExpander";
 
 const tempMovieData = [
   {
