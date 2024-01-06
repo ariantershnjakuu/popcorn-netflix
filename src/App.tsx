@@ -57,8 +57,8 @@ const tempWatchedData = [
 ];
 
 export default function App() {
-  const [movies, setMovies] = useState(tempMovieData);
-  const [watched, setWatched] = useState(tempWatchedData);
+  const [movies] = useState(tempMovieData);
+  const [watched] = useState(tempWatchedData);
 
   return (
     <>
