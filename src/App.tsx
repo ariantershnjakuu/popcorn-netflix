@@ -7,7 +7,8 @@ import Search from "./components/header/Search";
 import Main from "./components/Main";
 import WatchedSummary from "./components/body/WatchedSummary";
 import WatchedList from "./components/body/WatchedList";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import Loader from "./utils/Loader";
 
 const tempMovieData = [
   {
@@ -56,9 +57,25 @@ const tempWatchedData = [
   },
 ];
 
+const KEY = "f7c1c749";
+
 export default function App() {
-  const [movies] = useState(tempMovieData);
+  const [movies, setMovies] = useState([]);
   const [watched] = useState(tempWatchedData);
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    async function fetchData() {
+      setIsLoading(true);
+      const rest = await fetch(
+        `http://www.omdbapi.com/?apikey=${KEY}&s=John Wick`
+      );
+      const data = await rest.json();
+      setMovies(data.Search);
+      setIsLoading(false);
+    }
+    fetchData();
+  }, []);
 
   return (
     <>
@@ -68,9 +85,7 @@ export default function App() {
         <NumResults movies={movies} />
       </NavBar>
       <Main>
-        <Box>
-          <MovieList movies={movies} />
-        </Box>
+        <Box>{isLoading ? <Loader /> : <MovieList movies={movies} />}</Box>
         <Box>
           <WatchedSummary watched={watched} />
           <WatchedList watched={watched} />
