@@ -15,7 +15,7 @@ const stars = {
 const containerStart = {
   display: "flex",
   alignItems: "center",
-  gap: "16px",
+  justifyContent: "space-between",
 };
 
 const StartComponent: React.FC<StartComponentProps> = ({
@@ -33,7 +33,7 @@ const StartComponent: React.FC<StartComponentProps> = ({
   const textStyle = {
     lineHeight: "1",
     margin: "0",
-    fontSize: `${size}px`,
+    fontSize: `18px`,
     color: color,
   };
 

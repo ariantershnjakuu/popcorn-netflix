@@ -9,6 +9,7 @@ import WatchedSummary from "./components/body/WatchedSummary";
 import WatchedList from "./components/body/WatchedList";
 import { useEffect, useState } from "react";
 import Loader from "./utils/Loader";
+import MovieDetails from "./components/body/MovieDetails";
 
 // const tempMovieData = [
 //   {
@@ -57,14 +58,13 @@ const tempWatchedData = [
   },
 ];
 
-const KEY = "f7c1c749";
-
 export default function App() {
   const [movies, setMovies] = useState([]);
   const [watched] = useState(tempWatchedData);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
-  const [query, setQuery] = useState("");
+  const [query, setQuery] = useState("John Wick");
+  const [selectedId, setSelectedId] = useState("");
 
   useEffect(() => {
     async function fetchData() {
@@ -72,7 +72,7 @@ export default function App() {
         setIsLoading(true);
         setError("");
         const rest = await fetch(
-          `http://www.omdbapi.com/?apikey=${KEY}&s=${query}`
+          `http://www.omdbapi.com/?apikey=${process.env.REACT_APP_API_KEY}&s=${query}`
         );
 
         if (!rest.ok) throw new Error("Something went wrong with fetching!");
@@ -95,6 +95,14 @@ export default function App() {
     fetchData();
   }, [query]);
 
+  const handleSelectId = (id: string) => {
+    setSelectedId((selectedId) => (id === selectedId ? "" : id));
+  };
+
+  const handleCloseSelected = () => {
+    setSelectedId("");
+  };
+
   return (
     <>
       <NavBar>
@@ -106,12 +114,23 @@ export default function App() {
         <Box>
           {/* {isLoading ? <Loader /> : <MovieList movies={movies} />} */}
           {isLoading && <Loader />}
-          {!isLoading && <MovieList movies={movies} />}
+          {!isLoading && (
+            <MovieList movies={movies} handleSelectedId={handleSelectId} />
+          )}
           {error && <p className="error">{error}</p>}
         </Box>
         <Box>
-          <WatchedSummary watched={watched} />
-          <WatchedList watched={watched} />
+          {selectedId ? (
+            <MovieDetails
+              selectedId={selectedId}
+              handleCloseSelected={handleCloseSelected}
+            />
+          ) : (
+            <>
+              <WatchedSummary watched={watched} />
+              <WatchedList watched={watched} />
+            </>
+          )}
         </Box>
       </Main>
     </>
