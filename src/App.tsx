@@ -72,7 +72,7 @@ export default function App() {
         setIsLoading(true);
         setError("");
         const rest = await fetch(
-          `http://www.omdbapi.com/?apikey=${process.env.REACT_APP_API_KEY}&s=${query}`
+          `https://www.omdbapi.com/?apikey=${process.env.REACT_APP_API_KEY}&s=${query}`
         );
 
         if (!rest.ok) throw new Error("Something went wrong with fetching!");

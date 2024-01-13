@@ -30,7 +30,7 @@ const MovieDetails: React.FC<MovieDetailsProps> = ({
     async function fetchMovieDetails() {
       setIsLoading(true);
       const response = await fetch(
-        `http://www.omdbapi.com/?apikey=${process.env.REACT_APP_API_KEY}&i=${selectedId}`
+        `https://www.omdbapi.com/?apikey=${process.env.REACT_APP_API_KEY}&i=${selectedId}`
       );
       const data = await response.json();
       setMovie(data);
