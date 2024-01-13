@@ -60,11 +60,15 @@ const tempWatchedData = [
 
 export default function App() {
   const [movies, setMovies] = useState([]);
-  const [watched] = useState(tempWatchedData);
+  const [watched, setWatched] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const [query, setQuery] = useState("John Wick");
   const [selectedId, setSelectedId] = useState("");
+
+  const handleAddWatched = (movie: any) => {
+    setWatched((watched) => [...watched, movie] as never[]);
+  };
 
   useEffect(() => {
     async function fetchData() {
@@ -124,6 +128,7 @@ export default function App() {
             <MovieDetails
               selectedId={selectedId}
               handleCloseSelected={handleCloseSelected}
+              onAddWatched={handleAddWatched}
             />
           ) : (
             <>

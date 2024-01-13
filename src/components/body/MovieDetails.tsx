@@ -5,6 +5,7 @@ import Loader from "../../utils/Loader";
 interface MovieDetailsProps {
   handleCloseSelected: any;
   selectedId: string;
+  onAddWatched: any;
 }
 
 type MovieDetailsType = {
@@ -23,6 +24,7 @@ type MovieDetailsType = {
 const MovieDetails: React.FC<MovieDetailsProps> = ({
   selectedId,
   handleCloseSelected,
+  onAddWatched,
 }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [movie, setMovie] = useState({} as MovieDetailsType);
