@@ -33,6 +33,7 @@ const MovieDetails: React.FC<MovieDetailsProps> = ({
   const [isLoading, setIsLoading] = useState(false);
   const [movie, setMovie] = useState({} as MovieDetailsType);
   const [userRating, setUserRating] = useState(0);
+
   useEffect(() => {
     async function fetchMovieDetails() {
       setIsLoading(true);
@@ -70,6 +71,10 @@ const MovieDetails: React.FC<MovieDetailsProps> = ({
     .map((movie: MovieDetailsType) => movie.imdbID)
     .includes(selectedId);
 
+  const watchedUserRating = watched.find(
+    (movie: MovieDetailsType) => movie.imdbID === selectedId
+  )?.userRating;
+
   return (
     <div className="details">
       {isLoading ? (
@@ -93,17 +98,21 @@ const MovieDetails: React.FC<MovieDetailsProps> = ({
           </header>
           <section>
             <div className="rating">
-              {isWatched && (
-                <StartComponent
-                  maxRating={10}
-                  size={24}
-                  onSetRating={setUserRating}
-                />
-              )}
-              {userRating > 0 && (
-                <button className="btn-add" onClick={handleAdd}>
-                  + Add to list
-                </button>
+              {!isWatched ? (
+                <>
+                  <StartComponent
+                    maxRating={10}
+                    size={24}
+                    onSetRating={setUserRating}
+                  />
+                  {userRating > 0 && (
+                    <button className="btn-add" onClick={handleAdd}>
+                      + Add to list
+                    </button>
+                  )}
+                </>
+              ) : (
+                <p>You rated this moviem with {watchedUserRating} ⭐️</p>
               )}
             </div>
             <p>

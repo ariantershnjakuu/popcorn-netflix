@@ -2,9 +2,13 @@ import { MovieDetailsType } from "./MovieDetails";
 
 interface WatchedMovieProps {
   movie: MovieDetailsType;
+  handleRemoveWatched: any;
 }
 
-const WatchedMovie: React.FC<WatchedMovieProps> = ({ movie }) => {
+const WatchedMovie: React.FC<WatchedMovieProps> = ({
+  movie,
+  handleRemoveWatched,
+}) => {
   return (
     <li key={movie.imdbRating}>
       <img src={movie.Poster} alt={`${movie.Title} poster`} />
@@ -22,6 +26,12 @@ const WatchedMovie: React.FC<WatchedMovieProps> = ({ movie }) => {
           <span>⏳</span>
           <span>{movie.Runtime}</span>
         </p>
+        <button
+          className="btn-delete"
+          onClick={() => handleRemoveWatched(movie.imdbID)}
+        >
+          X
+        </button>
       </div>
     </li>
   );

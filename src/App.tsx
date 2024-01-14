@@ -70,6 +70,12 @@ export default function App() {
     setWatched((watched) => [...watched, movie] as never[]);
   };
 
+  const handleRemoveWatched = (id: string) => {
+    setWatched((watched) =>
+      watched.filter((movie: any) => movie.imdbID !== id)
+    );
+  };
+
   useEffect(() => {
     async function fetchData() {
       try {
@@ -134,7 +140,10 @@ export default function App() {
           ) : (
             <>
               <WatchedSummary watched={watched} />
-              <WatchedList watched={watched} />
+              <WatchedList
+                watched={watched}
+                handleRemoveWatched={handleRemoveWatched}
+              />
             </>
           )}
         </Box>
