@@ -1,12 +1,12 @@
-import { MovieDetailType } from "../../types/MovieType";
+import { MovieDetailsType } from "./MovieDetails";
 
 interface WatchedMovieProps {
-  movie: MovieDetailType;
+  movie: MovieDetailsType;
 }
 
 const WatchedMovie: React.FC<WatchedMovieProps> = ({ movie }) => {
   return (
-    <li key={movie.imdbID}>
+    <li key={movie.imdbRating}>
       <img src={movie.Poster} alt={`${movie.Title} poster`} />
       <h3>{movie.Title}</h3>
       <div>
@@ -20,7 +20,7 @@ const WatchedMovie: React.FC<WatchedMovieProps> = ({ movie }) => {
         </p>
         <p>
           <span>⏳</span>
-          <span>{movie.runtime} min</span>
+          <span>{movie.Runtime}</span>
         </p>
       </div>
     </li>

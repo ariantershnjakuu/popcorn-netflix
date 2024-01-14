@@ -10,7 +10,7 @@ export type MovieDetailType = {
   Title: string;
   Year: string;
   Poster: string;
-  runtime: number;
+  Runtime: number;
   imdbRating: number;
   userRating: number;
 };

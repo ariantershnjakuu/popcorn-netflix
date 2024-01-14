@@ -6,28 +6,33 @@ interface MovieDetailsProps {
   handleCloseSelected: any;
   selectedId: string;
   onAddWatched: any;
+  watched: any;
 }
 
-type MovieDetailsType = {
+export type MovieDetailsType = {
   Title: string;
   Year: string;
   Poster: string;
   Runtime: string;
+  imdbID: string;
   imdbRating: string;
   Plot: string;
   Released: string;
   Actors: string;
   Director: string;
   Genre: string;
+  userRating: number;
 };
 
 const MovieDetails: React.FC<MovieDetailsProps> = ({
   selectedId,
   handleCloseSelected,
   onAddWatched,
+  watched,
 }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [movie, setMovie] = useState({} as MovieDetailsType);
+  const [userRating, setUserRating] = useState(0);
   useEffect(() => {
     async function fetchMovieDetails() {
       setIsLoading(true);
@@ -41,7 +46,29 @@ const MovieDetails: React.FC<MovieDetailsProps> = ({
     fetchMovieDetails();
   }, [selectedId]);
 
-  const { Title, Poster, imdbRating, Plot, Actors, Director, Genre } = movie;
+  const { Title, Poster, imdbRating, Plot, Actors, Director, Genre, Runtime } =
+    movie;
+
+  const handleAdd = () => {
+    const newMovie = {
+      Title,
+      Poster,
+      imdbID: selectedId,
+      Plot,
+      imdbRating: Number(imdbRating),
+      Actors,
+      Director,
+      Genre,
+      Runtime: Number(Runtime.split(" ")[0]),
+      userRating,
+    };
+    onAddWatched(newMovie);
+    handleCloseSelected();
+  };
+
+  const isWatched = watched
+    .map((movie: MovieDetailsType) => movie.imdbID)
+    .includes(selectedId);
 
   return (
     <div className="details">
@@ -66,7 +93,18 @@ const MovieDetails: React.FC<MovieDetailsProps> = ({
           </header>
           <section>
             <div className="rating">
-              <StartComponent maxRating={10} size={24} />
+              {isWatched && (
+                <StartComponent
+                  maxRating={10}
+                  size={24}
+                  onSetRating={setUserRating}
+                />
+              )}
+              {userRating > 0 && (
+                <button className="btn-add" onClick={handleAdd}>
+                  + Add to list
+                </button>
+              )}
             </div>
             <p>
               <em>{Plot}</em>

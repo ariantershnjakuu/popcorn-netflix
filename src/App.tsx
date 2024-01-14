@@ -129,6 +129,7 @@ export default function App() {
               selectedId={selectedId}
               handleCloseSelected={handleCloseSelected}
               onAddWatched={handleAddWatched}
+              watched={watched}
             />
           ) : (
             <>

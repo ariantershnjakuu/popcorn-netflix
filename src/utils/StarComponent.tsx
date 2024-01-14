@@ -6,6 +6,7 @@ interface StartComponentProps {
   maxRating?: number;
   color?: string;
   size?: number;
+  onSetRating?: any;
 }
 
 const stars = {
@@ -22,12 +23,14 @@ const StartComponent: React.FC<StartComponentProps> = ({
   maxRating = 5,
   color = "#fcc419",
   size = 32,
+  onSetRating,
 }) => {
   const [rating, setRating] = useState(0);
   const [hover, setHover] = useState(0);
 
   const hadleRating = (value: number) => {
     setRating(value);
+    onSetRating(value);
   };
 
   const textStyle = {

@@ -1,5 +1,5 @@
 import WatchedMovie from "./WatchedMovie";
-import { MovieDetailType } from "../../types/MovieType";
+import { MovieDetailsType } from "./MovieDetails";
 
 interface WatchedListProps {
   watched: any;
@@ -8,7 +8,7 @@ interface WatchedListProps {
 const WatchedList: React.FC<WatchedListProps> = ({ watched }) => {
   return (
     <ul className="list">
-      {watched.map((movie: MovieDetailType) => (
+      {watched.map((movie: MovieDetailsType) => (
         <WatchedMovie movie={movie} key={movie.imdbID} />
       ))}
     </ul>
