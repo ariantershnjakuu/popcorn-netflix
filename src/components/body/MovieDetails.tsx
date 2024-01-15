@@ -75,6 +75,14 @@ const MovieDetails: React.FC<MovieDetailsProps> = ({
     (movie: MovieDetailsType) => movie.imdbID === selectedId
   )?.userRating;
 
+  useEffect(() => {
+    if (!Title) return;
+    document.title = `Movie | ${Title}`;
+    return () => {
+      document.title = "Popcorn Netflix";
+    };
+  }, [Title]);
+
   return (
     <div className="details">
       {isLoading ? (
