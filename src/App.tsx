@@ -63,7 +63,7 @@ export default function App() {
   const [watched, setWatched] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
-  const [query, setQuery] = useState("John Wick");
+  const [query, setQuery] = useState("");
   const [selectedId, setSelectedId] = useState("");
 
   const handleAddWatched = (movie: any) => {
@@ -77,12 +77,14 @@ export default function App() {
   };
 
   useEffect(() => {
+    const controller = new AbortController();
     async function fetchData() {
       try {
         setIsLoading(true);
         setError("");
         const rest = await fetch(
-          `https://www.omdbapi.com/?apikey=${process.env.REACT_APP_API_KEY}&s=${query}`
+          `https://www.omdbapi.com/?apikey=${process.env.REACT_APP_API_KEY}&s=${query}`,
+          { signal: controller.signal }
         );
 
         if (!rest.ok) throw new Error("Something went wrong with fetching!");
@@ -90,8 +92,11 @@ export default function App() {
         const data = await rest.json();
         if (data.Response === "False") throw new Error("Movie not found!");
         setMovies(data.Search);
+        setError("");
       } catch (err: any) {
-        setError(err.message);
+        if (err.name !== "AbortError") {
+          setError(err.message);
+        }
       } finally {
         setIsLoading(false);
       }
@@ -102,7 +107,12 @@ export default function App() {
       setError("");
       return;
     }
+    handleCloseSelected();
     fetchData();
+
+    return () => {
+      controller.abort();
+    };
   }, [query]);
 
   const handleSelectId = (id: string) => {

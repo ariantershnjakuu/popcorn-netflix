@@ -35,6 +35,20 @@ const MovieDetails: React.FC<MovieDetailsProps> = ({
   const [userRating, setUserRating] = useState(0);
 
   useEffect(() => {
+    function callback(e: any) {
+      if (e.code === "Escape") {
+        handleCloseSelected("");
+      }
+    }
+
+    document.addEventListener("keydown", callback);
+
+    return () => {
+      document.removeEventListener("keydown", callback);
+    };
+  }, [handleCloseSelected]);
+
+  useEffect(() => {
     async function fetchMovieDetails() {
       setIsLoading(true);
       const response = await fetch(
