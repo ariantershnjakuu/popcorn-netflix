@@ -13,21 +13,28 @@ import MovieDetails from "./components/body/MovieDetails";
 
 export default function App() {
   const [movies, setMovies] = useState([]);
-  const [watched, setWatched] = useState([]);
+  const [watched, setWatched] = useState<any>(() => {
+    const localData = localStorage.getItem("watched");
+    return localData ? JSON.parse(localData) : [];
+  });
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const [query, setQuery] = useState("");
   const [selectedId, setSelectedId] = useState("");
 
   const handleAddWatched = (movie: any) => {
-    setWatched((watched) => [...watched, movie] as never[]);
+    setWatched((watched: any) => [...watched, movie] as never[]);
   };
 
   const handleRemoveWatched = (id: string) => {
-    setWatched((watched) =>
+    setWatched((watched: any) =>
       watched.filter((movie: any) => movie.imdbID !== id)
     );
   };
+
+  useEffect(() => {
+    localStorage.setItem("watched", JSON.stringify(watched));
+  }, [watched]);
 
   useEffect(() => {
     const controller = new AbortController();
