@@ -10,17 +10,19 @@ import WatchedList from "./components/body/WatchedList";
 import { useEffect, useState } from "react";
 import Loader from "./utils/Loader";
 import MovieDetails from "./components/body/MovieDetails";
+import { useMovies } from "./hooks/useMovies";
 
 export default function App() {
-  const [movies, setMovies] = useState([]);
-  const [watched, setWatched] = useState<any>(() => {
+  const [watched, setWatched] = useState(() => {
     const localData = localStorage.getItem("watched");
     return localData ? JSON.parse(localData) : [];
   });
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState("");
   const [query, setQuery] = useState("");
   const [selectedId, setSelectedId] = useState("");
+  const { movies, isLoading, error }: any = useMovies({
+    query,
+    callback: () => setSelectedId(""),
+  });
 
   const handleAddWatched = (movie: any) => {
     setWatched((watched: any) => [...watched, movie] as never[]);
@@ -36,52 +38,13 @@ export default function App() {
     localStorage.setItem("watched", JSON.stringify(watched));
   }, [watched]);
 
-  useEffect(() => {
-    const controller = new AbortController();
-    async function fetchData() {
-      try {
-        setIsLoading(true);
-        setError("");
-        const rest = await fetch(
-          `https://www.omdbapi.com/?apikey=${process.env.REACT_APP_API_KEY}&s=${query}`,
-          { signal: controller.signal }
-        );
-
-        if (!rest.ok) throw new Error("Something went wrong with fetching!");
-
-        const data = await rest.json();
-        if (data.Response === "False") throw new Error("Movie not found!");
-        setMovies(data.Search);
-        setError("");
-      } catch (err: any) {
-        if (err.name !== "AbortError") {
-          setError(err.message);
-        }
-      } finally {
-        setIsLoading(false);
-      }
-    }
-
-    if (query.length < 3) {
-      setMovies([]);
-      setError("");
-      return;
-    }
-    handleCloseSelected();
-    fetchData();
-
-    return () => {
-      controller.abort();
-    };
-  }, [query]);
-
   const handleSelectId = (id: string) => {
     setSelectedId((selectedId) => (id === selectedId ? "" : id));
   };
 
-  const handleCloseSelected = () => {
+  function handleCloseSelected() {
     setSelectedId("");
-  };
+  }
 
   return (
     <>
