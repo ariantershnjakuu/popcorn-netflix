@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import StartComponent from "../../utils/StarComponent";
 import Loader from "../../utils/Loader";
 
@@ -33,6 +33,12 @@ const MovieDetails: React.FC<MovieDetailsProps> = ({
   const [isLoading, setIsLoading] = useState(false);
   const [movie, setMovie] = useState({} as MovieDetailsType);
   const [userRating, setUserRating] = useState(0);
+
+  const countRef = useRef(0);
+
+  useEffect(() => {
+    if (userRating) countRef.current++;
+  }, [userRating]);
 
   useEffect(() => {
     function callback(e: any) {
@@ -76,6 +82,7 @@ const MovieDetails: React.FC<MovieDetailsProps> = ({
       Genre,
       Runtime: Number(Runtime.split(" ")[0]),
       userRating,
+      countRatingDesicions: countRef.current,
     };
     onAddWatched(newMovie);
     handleCloseSelected();
