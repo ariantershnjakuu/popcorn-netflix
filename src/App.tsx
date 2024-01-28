@@ -11,12 +11,10 @@ import { useEffect, useState } from "react";
 import Loader from "./utils/Loader";
 import MovieDetails from "./components/body/MovieDetails";
 import { useMovies } from "./hooks/useMovies";
+import { useLocalStorageState } from "./hooks/useLocalStorageState";
 
 export default function App() {
-  const [watched, setWatched] = useState(() => {
-    const localData = localStorage.getItem("watched");
-    return localData ? JSON.parse(localData) : [];
-  });
+  const [watched, setWatched]: any = useLocalStorageState([] as any, "watched");
   const [query, setQuery] = useState("");
   const [selectedId, setSelectedId] = useState("");
   const { movies, isLoading, error }: any = useMovies({
@@ -33,10 +31,6 @@ export default function App() {
       watched.filter((movie: any) => movie.imdbID !== id)
     );
   };
-
-  useEffect(() => {
-    localStorage.setItem("watched", JSON.stringify(watched));
-  }, [watched]);
 
   const handleSelectId = (id: string) => {
     setSelectedId((selectedId) => (id === selectedId ? "" : id));
