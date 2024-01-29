@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import StartComponent from "../../utils/StarComponent";
 import Loader from "../../utils/Loader";
+import useKey from "../../hooks/useKey";
 
 interface MovieDetailsProps {
   handleCloseSelected: any;
@@ -40,19 +41,21 @@ const MovieDetails: React.FC<MovieDetailsProps> = ({
     if (userRating) countRef.current++;
   }, [userRating]);
 
-  useEffect(() => {
-    function callback(e: any) {
-      if (e.code === "Escape") {
-        handleCloseSelected("");
-      }
-    }
+  // useEffect(() => {
+  //   function callback(e: any) {
+  //     if (e.code === "Escape") {
+  //       handleCloseSelected("");
+  //     }
+  //   }
 
-    document.addEventListener("keydown", callback);
+  //   document.addEventListener("keydown", callback);
 
-    return () => {
-      document.removeEventListener("keydown", callback);
-    };
-  }, [handleCloseSelected]);
+  //   return () => {
+  //     document.removeEventListener("keydown", callback);
+  //   };
+  // }, [handleCloseSelected]);
+
+  useKey({ key: "Escape", action: handleCloseSelected });
 
   useEffect(() => {
     async function fetchMovieDetails() {

@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { useRef } from "react";
+import useKey from "../../hooks/useKey";
 
 interface SearchProps {
   query: string;
@@ -9,19 +10,14 @@ interface SearchProps {
 const Search: React.FC<SearchProps> = ({ query, setQuery }) => {
   const inputFocus = useRef<any>();
 
-  useEffect(() => {
-    const callback = (e: any) => {
+  useKey({
+    key: "Enter",
+    action: () => {
       if (document.activeElement === inputFocus.current) return;
-      if (e.code === "Enter") {
-        inputFocus.current.focus();
-        setQuery("");
-      }
-    };
-    document.addEventListener("keydown", callback);
-    return () => {
-      document.addEventListener("keydown", callback);
-    };
-  }, [setQuery]);
+      inputFocus.current.focus();
+      setQuery("");
+    },
+  });
 
   return (
     <input
